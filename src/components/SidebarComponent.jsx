@@ -33,6 +33,7 @@ export default function SidebarComponent() {
             </div>
           ))}
         </div>
+
         {/* render log out */}
         <div className="flex items-start gap-3 py-3 px-5 rounded-xl cursor-pointer hover:bg-gray-200">
           <LogOutIcon />

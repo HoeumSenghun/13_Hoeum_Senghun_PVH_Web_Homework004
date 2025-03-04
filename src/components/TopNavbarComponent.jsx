@@ -10,7 +10,6 @@ export default function TopNavbarComponent() {
 
   return (
     <div className="flex justify-between items-center">
-      {/* search bar */}
       <form className="relative w-9/12 " onSubmit={handleSubmit}>
         {/* search button */}
         <button className="cursor-pointer">

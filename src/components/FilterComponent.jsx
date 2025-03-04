@@ -1,4 +1,3 @@
-import { ChevronDown } from "lucide-react";
 import React from "react";
 
 export default function FilterComponent() {
@@ -10,11 +9,6 @@ export default function FilterComponent() {
   return (
     <form className="mt-4 mx-4 flex justify-between" onSubmit={handleSubmit}>
       <div className="relative w-full ">
-        {/* <input
-          type="text"
-          placeholder="Filter Learning Materials"
-          className="w-5/6 p-4 focus:outline-none"
-        /> */}
         <select
           id="filterLearningMaterials"
           name="filterLearningMaterials"
@@ -28,7 +22,6 @@ export default function FilterComponent() {
             <option value="Z-A">Z-A</option>
           </optgroup>
         </select>
-        {/* <ChevronDown stroke="#B9B9B9" className="absolute top-4 right-3" /> */}
       </div>
     </form>
   );
