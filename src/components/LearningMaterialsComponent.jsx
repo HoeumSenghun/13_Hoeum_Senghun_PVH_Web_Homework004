@@ -3,6 +3,16 @@ import { Key, Star } from "lucide-react";
 import FilterComponent from "./FilterComponent";
 import { learningMaterials } from "../data/learningMaterials";
 
+const fomartDate = (dateString) => {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat("en-US", {
+    weekday: "short",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+};
+
 export default function LearningMaterialsComponent() {
   return (
     <div className="bg-white drop-shadow-lg rounded-2xl overflow-auto h-[80vh]">
@@ -33,7 +43,7 @@ export default function LearningMaterialsComponent() {
               <p className="text-base font-medium">{material.title}</p>
               <Star size={20} className={material.isFavorite ? "text-yellow-500" : "text-gray-400"} />
             </div>
-            <p className="text-gray-400 text-sm">Posted at: {material.postedAt}</p>
+            <p className="text-gray-400 text-sm">Posted at: {fomartDate(material.postedAt)}</p>
           </div>
         </div>
         ))}
