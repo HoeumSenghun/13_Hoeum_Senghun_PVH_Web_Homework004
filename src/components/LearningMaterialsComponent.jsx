@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Key, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import FilterComponent from "./FilterComponent";
 import { learningMaterials } from "../data/learningMaterials";
 
@@ -15,16 +15,25 @@ const formatDate = (dateString) => {
 
 export default function LearningMaterialsComponent() {
 
-  const [materials, setMeterials] = useState(learningMaterials);
+  const [materials, setMaterials] = useState(learningMaterials);
 
   const toggleFavorite = (id) => {
-    setMeterials((prevMaterials) => prevMaterials.map((material) => material.id === id ? { ...material, isFavorite: !material.isFavorite } : material));
+    setMaterials((prevMaterials) => prevMaterials.map((material) => material.id === id ? { ...material, isFavorite: !material.isFavorite } : material));
   };
+
+  const handleFilterChange = (sortOrder) => {
+    const sortedMaterials = [...materials].sort((a, b) => {
+      if (sortOrder === "A-Z") return a.title.localeCompare(b.title);
+      if (sortOrder === "Z-A") return b.title.localeCompare(a.title);
+      return 0;
+    });
+    setMaterials(sortedMaterials);
+  };  
 
   return (
     <div className="bg-white drop-shadow-lg rounded-2xl overflow-auto h-[80vh]">
       {/* calling filter component */}
-      <FilterComponent />
+      <FilterComponent onFilterChange={handleFilterChange}/>
 
       {/* title */}
       <div className="p-4 flex justify-between items-center">
