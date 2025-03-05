@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Key, Star } from "lucide-react";
 import FilterComponent from "./FilterComponent";
 import { learningMaterials } from "../data/learningMaterials";
 
-const fomartDate = (dateString) => {
+const formatDate = (dateString) => {
   const date = new Date(dateString);
   return new Intl.DateTimeFormat("en-US", {
     weekday: "short",
@@ -14,6 +14,13 @@ const fomartDate = (dateString) => {
 };
 
 export default function LearningMaterialsComponent() {
+
+  const [materials, setMeterials] = useState(learningMaterials);
+
+  const toggleFavorite = (id) => {
+    setMeterials((prevMaterials) => prevMaterials.map((material) => material.id === id ? { ...material, isFavorite: !material.isFavorite } : material));
+  };
+
   return (
     <div className="bg-white drop-shadow-lg rounded-2xl overflow-auto h-[80vh]">
       {/* calling filter component */}
@@ -27,7 +34,7 @@ export default function LearningMaterialsComponent() {
 
       {/* materials list */}
       <div className="space-y-3 p-4">
-        {learningMaterials.map((material) => (
+        {materials.map((material) => (
           
           <div key={material.id} className="bg-light-gray px-4 py-2 flex gap-5 items-center">
           <img
@@ -41,9 +48,9 @@ export default function LearningMaterialsComponent() {
           <div className="w-full">
             <div className="flex justify-between">
               <p className="text-base font-medium">{material.title}</p>
-              <Star size={20} className={material.isFavorite ? "text-yellow-500" : "text-gray-400"} />
+              <Star onClick={() => toggleFavorite(material.id)} size={20} className={material.isFavorite ? "text-yellow-500 cursor-pointer" : "text-gray-500 cursor-pointer"} />
             </div>
-            <p className="text-gray-400 text-sm">Posted at: {fomartDate(material.postedAt)}</p>
+            <p className="text-gray-400 text-sm">Posted at: {formatDate(material.postedAt)}</p>
           </div>
         </div>
         ))}
