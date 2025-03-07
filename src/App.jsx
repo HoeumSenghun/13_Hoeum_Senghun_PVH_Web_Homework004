@@ -12,13 +12,22 @@ function App() {
 
   const [projects, setProjects] = useState([]);
   const handleAddProject = (newProject) =>{ setProjects ([...projects, newProject])};
+  
+  const [searchQuery, setSearchQuery ] = useState("");
+  const handleSearch = (data) => {
+    console.log("data ", data)
+    setSearchQuery(data)
+  }
+  const filteredProjects = projects.filter((project) =>
+    project.projectName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <>
       <div className="overflow-hidden grid grid-cols-12">
         <div className="col-span-2"><SideBarComponent /></div>
         <div className="col-span-10 p-5 bg-gray-200">
-          <div><TopNavbarComponent /></div>
+          <div><TopNavbarComponent onSearch={handleSearch}/></div>
           <div className="grid grid-cols-10 mt-5">
             <div className="col-span-8">
                 <div><DashboardComponent projects={projects} /></div>
@@ -27,11 +36,25 @@ function App() {
                   <AddNewProjectComponent onAddProject={handleAddProject}/>
                 </div>
                 <div className="mt-7 grid grid-cols-3 w-6xl overflow-y-auto h-[560px]">
-                {projects.map((project, index) => (
+                {/* {projects.map((project, index) => (
                   <div className="p-4">
                     <CardComponent key={index} project={project} />
                   </div>
-                ))}
+                ))} */}
+
+                {
+                  searchQuery === "" ? projects.map((project, index) => (
+                    <div className="p-4">
+                      <CardComponent key={index} project={project} />
+                    </div>
+                  )) : filteredProjects.map((project, index) => (
+                    <div className="p-4">
+                      <CardComponent key={index} project={project} />
+                    </div>
+                  ))
+                }
+
+
               </div>
             </div>
             <div className="col-span-2"><LearningMaterialsComponent /></div>

@@ -1,12 +1,16 @@
 import { Bell, Search } from "lucide-react";
 import React from "react";
 
-export default function TopNavbarComponent() {
+export default function TopNavbarComponent({ onSearch }) {
   // handle on form submit
   const handleSubmit = (e) => {
     // to prevent the page from reload
     e.preventDefault();
   };
+
+  const handleSearch = (e) => {
+    onSearch(e.target.value)
+  }
 
   return (
     <div className="flex justify-between items-center">
@@ -17,7 +21,8 @@ export default function TopNavbarComponent() {
         </button>
 
         {/* search input */}
-        <input
+        <input 
+          onChange={handleSearch}
           type="text"
           placeholder="Search assignment here"
           className="w-full bg-white py-3 pl-14 pr-5 rounded-xl h-12 border-none focus:border-none focus:ring-0 focus:outline-custom-sky-blue"
