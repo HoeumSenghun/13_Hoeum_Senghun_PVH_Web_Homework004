@@ -13,8 +13,8 @@ export default function TopNavbarComponent({ onSearch }) {
   }
 
   return (
-    <div className="flex justify-between items-center">
-      <form className="relative w-9/12 " onSubmit={handleSubmit}>
+    <div className="flex justify-between items-center pl-4">
+      <form className="relative w-9/12" onSubmit={handleSubmit}>
         {/* search button */}
         <button className="cursor-pointer">
           <Search className="w-6 h-6 text-primary-text absolute top-3 left-4" />

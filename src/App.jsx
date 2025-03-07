@@ -30,18 +30,12 @@ function App() {
           <div><TopNavbarComponent onSearch={handleSearch}/></div>
           <div className="grid grid-cols-10 mt-5">
             <div className="col-span-8">
-                <div><DashboardComponent projects={projects} /></div>
-                <div className="mt-5 flex justify-between pr-18">
+                <div className=" pl-4"><DashboardComponent projects={projects} /></div>
+                <div className="mt-5 flex justify-between pr-18 pl-4">
                   <AssignmentsComponent />
                   <AddNewProjectComponent onAddProject={handleAddProject}/>
                 </div>
-                <div className="mt-7 grid grid-cols-3 w-6xl overflow-y-auto h-[560px]">
-                {/* {projects.map((project, index) => (
-                  <div className="p-4">
-                    <CardComponent key={index} project={project} />
-                  </div>
-                ))} */}
-
+                <div className="mt-7 grid grid-cols-3 w-6xl overflow-y-auto h-[560px] no-scrollbar">
                 {
                   searchQuery === "" ? projects.map((project, index) => (
                     <div className="p-4">
@@ -53,8 +47,6 @@ function App() {
                     </div>
                   ))
                 }
-
-
               </div>
             </div>
             <div className="col-span-2"><LearningMaterialsComponent /></div>
