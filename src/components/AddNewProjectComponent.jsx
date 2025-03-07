@@ -7,27 +7,57 @@ export default function AddNewProjectComponent({ onAddProject }) {
   const [progress, setProgress] = useState("");
   const [description, setDescription] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    if (!projectName || !dueDate || !progress || !description) {
-      alert("Please fill in all fields.");
+  
+    let Errors = {};
+  
+    // name validate
+    if (!projectName) Errors.projectName = "* Project name is required.";
+  
+    // progress validation
+    if (!progress) Errors.progress = "* Please select your project progress.";
+  
+    // date format
+    const today = new Date().toISOString().split("T")[0];
+  
+    // dueDate validation
+    if (!dueDate) {
+      Errors.dueDate = "* Please choose the deadline of your project.";
+    } else if (dueDate < today) {
+      Errors.dueDate = "* Due date cannot be in the past.";
+    }
+  
+    // if Errors, update state and stop submit
+    if (Object.keys(Errors).length > 0) {
+      setErrors(Errors);
       return;
     }
 
-    const newProject = { projectName, dueDate, progress, description };
+    // set Lorem description if empty
+    const finalDescription = description || "Lorem ipsum dolor, sit amet consectetur...";
+  
+    const newProject = {
+      projectName,
+      dueDate,
+      progress,
+      description: finalDescription,
+    };
+  
     onAddProject(newProject);
-
+  
     // clear form
     setProjectName("");
     setDueDate("");
     setProgress("");
     setDescription("");
-
-
+    setErrors({});
+  
     setIsModalOpen(false);
   };
+  
 
   return (
     <div>
@@ -65,8 +95,9 @@ export default function AddNewProjectComponent({ onAddProject }) {
                     onChange={(e) => setProjectName(e.target.value)}
                     className="border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
                     placeholder="Enter project name"
-                    required
+                    
                   />
+                  {errors.projectName && <p className="text-red-500 text-sm">{errors.projectName}</p>}
                 </div>
 
                 {/* Due Date */}
@@ -77,8 +108,9 @@ export default function AddNewProjectComponent({ onAddProject }) {
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
                     className="border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
-                    required
+                    
                   />
+                  {errors.dueDate && <p className="text-red-500 text-sm">{errors.dueDate}</p>}
                 </div>
 
                 {/* Progress */}
@@ -88,7 +120,7 @@ export default function AddNewProjectComponent({ onAddProject }) {
                     value={progress}
                     onChange={(e) => setProgress(e.target.value)}
                     className="border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
-                    required
+                    
                   >
                     <option value="">Select Progress</option>
                     <option value="100">100%</option>
@@ -96,6 +128,7 @@ export default function AddNewProjectComponent({ onAddProject }) {
                     <option value="50">50%</option>
                     <option value="25">25%</option>
                   </select>
+                  {errors.progress && <p className="text-red-500 text-sm">{errors.progress}</p>}
                 </div>
 
                 {/* Description */}
@@ -107,7 +140,7 @@ export default function AddNewProjectComponent({ onAddProject }) {
                     className="border border-gray-300 text-gray-900 rounded-lg w-full p-2.5"
                     placeholder="Project description"
                     rows="3"
-                    required
+                    
                   ></textarea>
                 </div>
               </div>
