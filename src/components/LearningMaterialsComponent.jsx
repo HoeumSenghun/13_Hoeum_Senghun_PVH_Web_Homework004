@@ -57,7 +57,7 @@ export default function LearningMaterialsComponent() {
           <div className="w-full">
             <div className="flex justify-between">
               <p className="text-base font-medium">{material.title}</p>
-              <Star onClick={() => toggleFavorite(material.id)} size={20} className={material.isFavorite ? "text-yellow-500 cursor-pointer" : "text-gray-500 cursor-pointer"} />
+              <Star fill={material.isFavorite ? "orange" : "none"} stroke={ material.isFavorite ? "orange" : "black"} onClick={() => toggleFavorite(material.id)} size={20}  />
             </div>
             <p className="text-gray-400 text-sm">Posted at: {formatDate(material.postedAt)}</p>
           </div>

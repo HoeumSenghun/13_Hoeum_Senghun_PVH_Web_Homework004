@@ -41,7 +41,7 @@ export default function AddNewProjectComponent({ onAddProject }) {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex justify-center items-center bg-gray-400/50 z-50">
+        <div className="fixed inset-0 flex justify-center items-center bg-gray-800/50 z-50">
           <div className="bg-white p-5 rounded-2xl shadow-sm dark:bg-gray-700 w-full max-w-md">
             <div className="flex items-center justify-between border-b border-gray-300 pb-3">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
