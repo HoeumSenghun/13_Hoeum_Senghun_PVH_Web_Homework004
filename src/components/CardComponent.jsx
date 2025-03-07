@@ -23,17 +23,18 @@ export default function CardComponent({ project }) {
 
   // dynamic color for duedate & progress
   const getDynamicColor = (progress) => {
-    if (progress == 100) return "text-[#59D5E0]";
-    if (progress == 75) return "text-[#FAA300]";
-    if (progress == 50) return "text-[#F5DD61]";
-    if (progress == 25) return "text-[#F4538A]";
+    if (progress == 100) return {textColor: "text-[#59D5E0]", bgColor: "bg-[#59D5E0]"};
+    if (progress == 75) return {textColor: "text-[#FAA300]", bgColor: "bg-[#FAA300]"};
+    if (progress == 50) return {textColor: "text-[#F5DD61]", bgColor: "bg-[#F5DD61]"};
+    if (progress == 25) return {textColor: "text-[#F4538A]", bgColor: "bg-[#F4538A]"};
   };
+  const { textColor, bgColor } = getDynamicColor(project.progress);
 
   return (
     <div className="max-w-sm p-6 bg-white rounded-2xl shadow-sm dark:bg-gray-800">
       <div className="flex justify-between mb-5">
         {/* Due Date with Dynamic Color */}
-        <p className={`text-sm font-medium ${getDynamicColor(project.progress)}`}>
+        <p className={`text-sm font-medium ${textColor}`}>
           {dueDate.toLocaleDateString("en-US", {
             month: "short",
             day: "numeric",
@@ -57,7 +58,7 @@ export default function CardComponent({ project }) {
       </div>
       <div className="relative mb-5 w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
         <div
-          className={`h-2.5 rounded-full ${getDynamicColor(project.progress).replace("text-", "bg-")}`}
+          className={`h-2.5 rounded-full ${bgColor}`}
           style={{ width: `${project.progress}%` }}
         ></div>
       </div>
