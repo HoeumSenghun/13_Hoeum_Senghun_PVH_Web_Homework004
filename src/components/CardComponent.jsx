@@ -1,54 +1,73 @@
 import { EllipsisVertical } from "lucide-react";
 import React from "react";
 
-export default function CardComponent() {
+export default function CardComponent({ project }) {
+  const dueDate = new Date(project.dueDate);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const timeDiff = dueDate - today;
+  const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+
+  // deadline
+  let deadlineLabel = "";
+  if (daysLeft > 6) {
+    deadlineLabel = `${Math.floor(daysLeft / 6)} weeks left`;
+  } else if (daysLeft > 1) {
+    deadlineLabel = `${daysLeft} days left`;
+  } else if (daysLeft === 1) {
+    deadlineLabel = `1 day left`;
+  } else {
+    deadlineLabel = "Overdue";
+  }
+
+  // dynamic color for duedate & progress
+  const getDynamicColor = (progress) => {
+    if (progress == 100) return {textColor: "text-[#59D5E0]", bgColor: "bg-[#59D5E0]"};
+    if (progress == 75) return {textColor: "text-[#FAA300]", bgColor: "bg-[#FAA300]"};
+    if (progress == 50) return {textColor: "text-[#F5DD61]", bgColor: "bg-[#F5DD61]"};
+    if (progress == 25) return {textColor: "text-[#F4538A]", bgColor: "bg-[#F4538A]"};
+  };
+  const { textColor, bgColor } = getDynamicColor(project.progress);
+
   return (
-    <div>
-      <div className="max-w-sm p-6 bg-white rounded-2xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
-        <div className="flex justify-between mb-5">
-          {/* date */}
-          <p className={`text-custom-sky-blue font-medium`}>Jan 17, 2025</p>
-          <EllipsisVertical size={20} color="#374957" />
-        </div>
-
-        <h5 className="capitalize mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-          web design
-        </h5>
-        <p className="line-clamp-2 mb-3 font-normal text-justify text-gray-400 dark:text-gray-400">
-          You should make web design pack with 30 different pose and with other
-          component on the internet as well.
+    <div className="max-w-sm p-6 bg-white rounded-2xl shadow-sm dark:bg-gray-800">
+      <div className="flex justify-between mb-5">
+        {/* Due Date with Dynamic Color */}
+        <p className={`text-sm font-medium ${textColor}`}>
+          {dueDate.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          })}
         </p>
+        <EllipsisVertical size={20} color="#374957" />
+      </div>
 
-        {/* progress bar */}
-        <div className="w-full flex justify-between font-medium mb-1">
-          <p>Progress</p>
-          <p>100%</p>
-        </div>
-        <div className="relative mb-5 w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-          <div className="bg-custom-sky-blue h-2.5 rounded-full"></div>
+      <h5 className="capitalize mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+        {project.projectName}
+      </h5>
+      <p className="line-clamp-2 mb-3 font-normal text-justify text-gray-400 dark:text-gray-400">
+        {project.description}
+      </p>
 
-          <div
-            className="border-l-4 rounded-full border-l-custom-pink h-5 absolute -top-1 left-1/4"
-            title="25%"
-          ></div>
+      {/* Progress Section */}
+      <div className="w-full flex justify-between items-center font-medium mb-1">
+        <p>Progress</p>
+        <p className="text-gray-900">{project.progress}%</p>
+      </div>
+      <div className="relative mb-5 w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+        <div
+          className={`h-2.5 rounded-full ${bgColor}`}
+          style={{ width: `${project.progress}%` }}
+        ></div>
+      </div>
 
-          <div
-            className="border-l-4 rounded-full border-l-custom-yellow-500 h-5 absolute -top-1 left-2/4"
-            title="50%"
-          ></div>
-
-          <div
-            className="border-l-4 rounded-full border-l-custom-carrot h-5 absolute -top-1 left-3/4"
-            title="75%"
-          ></div>
-        </div>
-
-        {/* deadline */}
-        <div className="flex justify-end">
-          <p className="font-medium bg-light-gray py-1.5 px-4 rounded-lg max-w-28 text-center">
-            1 day left
-          </p>
-        </div>
+      {/* Deadline with dynamic time display */}
+      <div className="flex justify-end">
+        <p className={`font-medium py-1.5 px-4 rounded-lg max-w-30 text-center bg-gray-200`}>
+          {deadlineLabel}
+        </p>
       </div>
     </div>
   );

@@ -1,17 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function FilterComponent() {
+export default function FilterComponent({ onFilterChange }) {
   // prevent the page from reload
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  // };
+
+  const [ sortOrder, setSortOrder ] = useState("");
+
+  const handleSortChange = (e) => {
+    const selectedSort = e.target.value;
+    setSortOrder(selectedSort);
+    if (onFilterChange) {
+      onFilterChange(selectedSort);
+    }
   };
 
   return (
-    <form className="mt-4 mx-4 flex justify-between" onSubmit={handleSubmit}>
+    <form className="mt-4 mx-4 flex justify-between" onSubmit={(e) => e.preventDefault()}>
       <div className="relative w-full ">
         <select
           id="filterLearningMaterials"
           name="filterLearningMaterials"
+          value={sortOrder}
+          onChange={handleSortChange}
           className="text-sm focus:ring-custom-sky-blue focus:border-custom-sky-blue block w-full p-4 focus:outline-none text-gray-400 border-none rounded-xl bg-light-gray"
         >
           <option hidden value="">
